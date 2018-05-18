@@ -1,6 +1,6 @@
 <template>
     <div class="purchase-order page-w block-center block-mg">
-        <order-form @search="search" ></order-form>
+        <order-form @search="search" @create-invoice="createInvoice"></order-form>
         <pay-order-list @tableSet="tableSet" ></pay-order-list>
         <router-view></router-view>
     </div>
@@ -16,10 +16,11 @@
             search(form) {
 
             },
+            createInvoice() {
+                this.$router.push({path:'/invoice/create'});
+            },
             tableSet(opt) {
-                if (opt.type == 1) {
-                    this.$router.push({path: `/purchaseOrder/details?id=${opt.row.ponum}`});
-                }
+
             }
         },
         components: {

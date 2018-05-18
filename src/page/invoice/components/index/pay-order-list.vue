@@ -1,31 +1,22 @@
 <template>
     <div class="overdraft-list block-mg">
-        <page-title :showLoad="true" :showExport="true" @export-tabel="exportTable" @reload-table="reloadTable">采购订单列表
+        <page-title :showLoad="true" :showExport="true" @export-tabel="exportTable" @reload-table="reloadTable">发票列表
         </page-title>
-        <div class="index-table">
+        <div class="index-table table-bg table-pd">
             <el-table :data="tableData" style="width: 100%">
-                <el-table-column fixed prop="ponum" align="center" label="订单编号" width="150"></el-table-column>
-                <el-table-column prop="date" align="center" sortable="custom" label="订单日期"
+                <el-table-column fixed prop="ponum" align="left" label="发票编号" width="150"></el-table-column>
+                <el-table-column prop="date" align="center" sortable="custom" label="开票日期"
                                  width="150"></el-table-column>
-                <el-table-column align="center" label="状态">
+                <el-table-column prop="date" align="center" sortable="custom" label="关联PO单号"
+                                 width="150"></el-table-column>
+                <el-table-column prop="money" align="right" sortable label="应付日期" width="150"></el-table-column>
+                <el-table-column prop="payDate" align="center" label="金额(¥)" width="150"></el-table-column>
+                <el-table-column prop="payDate" align="center" label="状态" width="150"></el-table-column>
+                <el-table-column fixed="right" align="left" label="操作" width="200">
                     <template slot-scope="scope">
-                        <span style="margin-left: 10px">{{getStatusText(scope)}}</span>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="money" align="center" sortable label="订单金额（¥）" width="150"></el-table-column>
-                <el-table-column prop="payDate" align="center" label="对账日期" width="150"></el-table-column>
-                <el-table-column prop="payDate" align="center" label="对账金额" width="150"></el-table-column>
-                <el-table-column prop="payDate" align="center" label="已开票金额" width="150"></el-table-column>
-                <el-table-column prop="payDate" align="center" label="未开票金额" width="150"></el-table-column>
-                <el-table-column prop="payDate" align="center" label="已付款金额" width="150"></el-table-column>
-                <el-table-column fixed="right" align="center" label="操作" width="200">
-                    <template slot-scope="scope">
-                        <el-button @click="handleClick(scope.row)" type="text" size="small"><i class="el-icon-view"></i>查看
+                        <el-button  @click="handleClick(scope.row,1)" type="text" size="small"><i class="el-icon-view"></i>查看
                         </el-button>
-                        <el-button @click="handleClick(scope.row)" type="text" size="small"><i class="el-icon-edit"></i>编辑
-                        </el-button>
-                        <el-button @click="handleClick(scope.row)" type="text" size="small"><i
-                                class="el-icon-delete"></i>对账
+                        <el-button v-if="scope.row.status == 3" @click="handleClick(scope.row,1)" type="text" size="small"><i class="el-icon-plus"></i>创建发票
                         </el-button>
                     </template>
                 </el-table-column>
@@ -50,21 +41,18 @@
 
     export default {
         name: "pay-order-list",
-        methods: {
-            handleClick(row) {
-                console.log(row);
-            }
-        },
+
         data() {
             return {
                 tableConfig: TABLE,
+                //status 1 未发起对账 2 对账中 3 已对账 4对账失败 5开票中
                 tableData: [
                     {
                         ponum: 'PO123456789',
                         status: 1,
                         date: '2018.04.25',
                         poNum: 'PO123456789',
-                        money: '98,842',
+                        money: '8,42',
                         payDate: '2018.10.25'
                     }, {
                         ponum: 'PO9654321',
@@ -75,21 +63,21 @@
                         payDate: '2018.10.25'
                     }, {
                         ponum: 'PO123456789',
-                        status: 1,
+                        status: 3,
                         date: '2018.04.25',
                         poNum: 'PO123456789',
                         money: '98,842',
                         payDate: '2018.10.25'
                     }, {
                         ponum: 'PO9654321',
-                        status: 2,
+                        status: 4,
                         date: '2018.04.26',
                         poNum: 'PO123456789',
                         money: '10,842',
                         payDate: '2018.10.25'
                     }, {
                         ponum: 'PO123456789',
-                        status: 1,
+                        status: 5,
                         date: '2018.04.25',
                         poNum: 'PO123456789',
                         money: '98,842',
@@ -175,25 +163,32 @@
             }
         },
         methods: {
-            exportTable() {
+            handleClick(row,type) {
 
             },
-            reloadTable() {
+            handleCurrentChange(page) {
+                console.log(page);
+            },
+            exportTable() {
 
             },
             getStatusText(scope) {
                 switch (scope.row.status) {
                     case 1:
-                        return '对账中'
+                        return '未发起对账'
                     case 2:
-                        return '未开票'
+                        return '对账中'
                     case 3:
-                        return '部分付款'
+                        return '已对账'
+                    case 4:
+                        return '对账失败'
+                    case 5:
+                        return '开票中'
                 }
             },
-            handleCurrentChange(page) {
-                console.log(page);
-            }
+            reloadTable() {
+
+            },
         },
         components: {
             pageTitle
@@ -203,9 +198,6 @@
 
 <style scoped lang="stylus">
     .overdraft-list
-        background #ffffff
-        .index-table
-            padding 10px
-            .pagination
-                margin 20px 0
+        .pagination
+            margin 20px 0
 </style>

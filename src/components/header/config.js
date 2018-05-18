@@ -29,7 +29,7 @@ export const nav = [
     },
     {
         name: '发票管理',
-        path: '/',
+        path: '/invoice',
         id: 3
     },
     {

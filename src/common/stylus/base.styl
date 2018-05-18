@@ -48,7 +48,10 @@ a
 
 .tc
   text-align center
-
+.tr
+  text-align right
+.tl
+  text-align left
 .w-100
   width 100%
 
@@ -76,12 +79,32 @@ a
 .bold
   font-weight bold
 
-//margit
+//每个块 间距 margit
 .block-mg
   margin-top 30px
+.block-child-mg
+  margin-top 10px
+//form表单样式统一
+.form-pd
+  padding 20px 50px
+.form-group
+  margin-right 20px
+  .form-group-input
+    width 200px
+  .form-name
+    width 100px
+    color $color-sup
+  .form-group-input-date
+    width 310px
+    height 30px
+
+//table样式统一
+.table-pd
+  padding 10px
+.table-bg
+  background #ffffff
 
 //  清除组件库table样式
-
 table
   tr
     &:nth-child(2n) td
