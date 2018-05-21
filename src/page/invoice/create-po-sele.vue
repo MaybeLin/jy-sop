@@ -22,27 +22,14 @@
             </div>
             <el-table class="block-child-mg" ref="multipleTable" :data="tableData3" style="width: 100%">
                 <el-table-column prop="poNum" label="订单编号"></el-table-column>
-                <el-table-column label="订单金额" align="center">
-                    <template slot-scope="scope">
-                        <el-popover @show="setEditVal(scope)" placement="top" class="shoushi" v-model="scope.row.popover">
-                            <el-input autofocus="true" v-model="editVal"></el-input>
-                            <div class="tr  block-child-mg">
-                                <el-button size="small" @click="scope.row.popover = false">取消</el-button>
-                                <el-button type="primary" size="small">确认</el-button>
-                            </div>
-                            <div slot="reference" class="name-wrapper">
-                                {{ scope.row.poMoney }}
-                            </div>
-                        </el-popover>
-                    </template>
-                </el-table-column>
+                <el-table-column prop="poMoney" label="订单金额" align="center"></el-table-column>
                 <el-table-column prop="compareDate" label="对账日期"></el-table-column>
                 <el-table-column prop="compareMoney" label="对账金额"></el-table-column>
                 <el-table-column prop="occupyMoney" label="已开票金额"></el-table-column>
                 <el-table-column prop="surplusMoney" label="可开票金额"></el-table-column>
             </el-table>
             <div class="next tr block-child-mg">
-                <el-button class="search-btn" @click="search" type="primary" size="small">下一步</el-button>
+                <el-button class="search-btn" @click="next" type="primary" size="small">下一步</el-button>
             </div>
         </div>
     </div>
@@ -55,8 +42,6 @@
         name: "create-invoice",
         data() {
             return {
-                editVal: '',
-                show: false,
                 tableData3: [
                     {
                         poNum: 'PO123456789',
@@ -87,15 +72,11 @@
                         occupyMoney: 2000,
                         surplusMoney: 2000
                     }],
-                multipleSelection: []
             }
         },
         methods: {
-            setEditVal(item){
-                this.editVal = item.row.poMoney;
-            },
-            search() {
-
+            next() {
+                this.$router.push({path:'/invoice/createDetails'})
             }
         },
         components: {

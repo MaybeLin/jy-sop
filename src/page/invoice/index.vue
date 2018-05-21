@@ -17,7 +17,7 @@
 
             },
             createInvoice() {
-                this.$router.push({path:'/invoice/create'});
+                this.$router.push({path:'/invoice/createPoSele'});
             },
             tableSet(opt) {
 

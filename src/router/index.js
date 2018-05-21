@@ -38,6 +38,7 @@ export default new Router({
             component: () => import('@/page/purchase-order/order-details'),
             meta: {id: 2},
         },
+        //发票
         {
             path: '/invoice',
             name: '发票管理',
@@ -45,9 +46,15 @@ export default new Router({
             meta: {id: 3}
         },
         {
-            path: '/invoice/create',
+            path: '/invoice/createPoSele',
             name: '发票创建',
-            component: () => import('@/page/invoice/create.vue'),
+            component: () => import('@/page/invoice/create-po-sele'),
+            meta: {id: 3}
+        },
+        {
+            path: '/invoice/createDetails',
+            name: '发票创建详情',
+            component: () => import('@/page/invoice/create-details'),
             meta: {id: 3}
         },
         {
