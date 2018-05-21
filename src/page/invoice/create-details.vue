@@ -1,7 +1,7 @@
 <template>
     <div class="create-details page-w block-center block-mg">
         <page-title>发票新增</page-title>
-        <div class="table-bg table-pd">
+        <div class="table-bg table-pd clearfix">
             <div class="details-text">
                 <div class="flex">
                     <div class="form-group flex flex-y-center block-child-mg">
@@ -38,7 +38,7 @@
                 </div>
             </div>
             <div class="details-table">
-                <el-table  show-summary :summary-method="getSummaries" class="block-child-mg" ref="multipleTable" :data="tableData3" style="width: 100%">
+                <el-table show-summary :summary-method="getSummaries" class="block-child-mg" ref="multipleTable" :data="tableData3" style="width: 100%">
                     <el-table-column align="center" label="序号" type="index" width="50"></el-table-column>
                     <el-table-column align="center" prop="name" label="货物或应税劳务名称" ></el-table-column>
                     <el-table-column align="center" prop="type" label="规格型号"></el-table-column>
@@ -68,6 +68,28 @@
                     <el-table-column align="center" prop="raioMoney" label="税额"></el-table-column>
                 </el-table>
             </div>
+            <div class="make flex flex-y-center block-mg">
+                <div>备注</div>
+                <div class="block-child-mg-left" style="width: 300px">
+                    <el-input type="textarea" :rows="2" placeholder="请输入内容"></el-input>
+                </div>
+            </div>
+            <div class="create-up flex flex-y-center block-mg ">
+                <div>上传<br>附件</div>
+                <div class="block-child-mg-left">
+                    <el-upload
+                            class="upload"
+                            drag
+                            :action="api"
+                            multiple>
+                        <div class="el-upload__text">点击上传(附件不超过20m)</div>
+                    </el-upload>
+                </div>
+            </div>
+            <div class="form-btn fr">
+                <el-button size="small" type="primary" icon="el-icon-check">保存</el-button>
+                <el-button @click="search" size="small" type="primary" plain icon="el-icon-printer">存草稿</el-button>
+            </div>
         </div>
     </div>
 </template>
@@ -75,10 +97,12 @@
 <script>
     import pageTitle from '@/components/page-title'
     import { convertCurrency } from '@/common/js/number'
+    const API = process.env.API_ROOT + '/up';
     export default {
         name: "create-details",
         data() {
             return {
+                api: API,
                 editVal: '',
                 tableData3: [
                     {
@@ -102,7 +126,14 @@
                     }],
             }
         },
+        mounted(){
+          this.pushTable();
+        },
         methods: {
+            pushTable(){
+                // console.log(this.$refs.multipleTable)
+            },
+            //合计 计算金额的和
             getSummaries(param) {
                 const { columns, data } = param;
                 const sums = [];
