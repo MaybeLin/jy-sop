@@ -9,38 +9,37 @@
             </div>
             <el-table class="block-child-mg" ref="multipleTable" :data="tableData3" style="width: 100%">
                 <el-table-column type="selection" label="全选" width="55"></el-table-column>
-                <el-table-column prop="poNum" label="订单编号" ></el-table-column>
-                <el-table-column prop="poMoney" label="订单金额" ></el-table-column>
-                <el-table-column prop="compareDate" label="对账日期" ></el-table-column>
-                <el-table-column prop="compareMoney" label="对账金额" ></el-table-column>
-                <el-table-column prop="occupyMoney" label="已开票金额" ></el-table-column>
-                <el-table-column prop="surplusMoney" label="可开票金额" ></el-table-column>
+                <el-table-column prop="poNum" label="订单编号"></el-table-column>
+                <el-table-column prop="poMoney" label="订单金额"></el-table-column>
+                <el-table-column prop="compareDate" label="对账日期"></el-table-column>
+                <el-table-column prop="compareMoney" label="对账金额"></el-table-column>
+                <el-table-column prop="occupyMoney" label="已开票金额"></el-table-column>
+                <el-table-column prop="surplusMoney" label="可开票金额"></el-table-column>
             </el-table>
             <!--选中订单的商品明细-->
             <div class="form-group flex flex-y-center block-child-mg">
                 <span class="form-name">物料明细</span>
             </div>
             <el-table class="block-child-mg" ref="multipleTable" :data="tableData3" style="width: 100%">
-                <el-table-column type="selection" label="全选" width="55"></el-table-column>
-                <el-table-column prop="poNum" label="订单编号" ></el-table-column>
-                <el-table-column  label="订单金额" align="center">
-                    <template slot-scope="scope" >
-                        <el-popover placement="top" class="shoushi" v-model="scope.row.popover">
-                            <el-input autofocus="true" v-model="scope.row.poMoney"></el-input>
+                <el-table-column prop="poNum" label="订单编号"></el-table-column>
+                <el-table-column label="订单金额" align="center">
+                    <template slot-scope="scope">
+                        <el-popover @show="setEditVal(scope)" placement="top" class="shoushi" v-model="scope.row.popover">
+                            <el-input autofocus="true" v-model="editVal"></el-input>
                             <div class="tr  block-child-mg">
                                 <el-button size="small" @click="scope.row.popover = false">取消</el-button>
                                 <el-button type="primary" size="small">确认</el-button>
                             </div>
                             <div slot="reference" class="name-wrapper">
-                                <el-tag size="medium">{{ scope.row.poMoney }}</el-tag>
+                                {{ scope.row.poMoney }}
                             </div>
                         </el-popover>
                     </template>
                 </el-table-column>
-                <el-table-column prop="compareDate" label="对账日期" ></el-table-column>
-                <el-table-column prop="compareMoney" label="对账金额" ></el-table-column>
-                <el-table-column prop="occupyMoney" label="已开票金额" ></el-table-column>
-                <el-table-column prop="surplusMoney" label="可开票金额" ></el-table-column>
+                <el-table-column prop="compareDate" label="对账日期"></el-table-column>
+                <el-table-column prop="compareMoney" label="对账金额"></el-table-column>
+                <el-table-column prop="occupyMoney" label="已开票金额"></el-table-column>
+                <el-table-column prop="surplusMoney" label="可开票金额"></el-table-column>
             </el-table>
             <div class="next tr block-child-mg">
                 <el-button class="search-btn" @click="search" type="primary" size="small">下一步</el-button>
@@ -56,45 +55,44 @@
         name: "create-invoice",
         data() {
             return {
-                visible2: true,
+                editVal: '',
                 show: false,
-                tableData3: [{
-                    poNum: 'PO123456789',
-                    poMoney: 10000,
-                    compareDate: '2018-04-05',
-                    compareMoney: 4000,
-                    occupyMoney: 2000,
-                    surplusMoney: 2000
-                },{
-                    poNum: 'PO123456789',
-                    poMoney: 10000,
-                    compareDate: '2018-04-05',
-                    compareMoney: 4000,
-                    occupyMoney: 2000,
-                    surplusMoney: 2000
-                },{
-                    poNum: 'PO123456789',
-                    poMoney: 10000,
-                    compareDate: '2018-04-05',
-                    compareMoney: 4000,
-                    occupyMoney: 2000,
-                    surplusMoney: 2000
-                },{
-                    poNum: 'PO123456789',
-                    poMoney: 10000,
-                    compareDate: '2018-04-05',
-                    compareMoney: 4000,
-                    occupyMoney: 2000,
-                    surplusMoney: 2000
-                }],
+                tableData3: [
+                    {
+                        poNum: 'PO123456789',
+                        poMoney: 66322323,
+                        compareDate: '2018-04-05',
+                        compareMoney: 4000,
+                        occupyMoney: 2000,
+                        surplusMoney: 2000
+                    }, {
+                        poNum: 'PO123456789',
+                        poMoney: 445666,
+                        compareDate: '2018-04-05',
+                        compareMoney: 4000,
+                        occupyMoney: 2000,
+                        surplusMoney: 2000
+                    }, {
+                        poNum: 'PO123456789',
+                        poMoney: 421,
+                        compareDate: '2018-04-05',
+                        compareMoney: 4000,
+                        occupyMoney: 2000,
+                        surplusMoney: 2000
+                    }, {
+                        poNum: 'PO123456789',
+                        poMoney: 123,
+                        compareDate: '2018-04-05',
+                        compareMoney: 4000,
+                        occupyMoney: 2000,
+                        surplusMoney: 2000
+                    }],
                 multipleSelection: []
             }
         },
         methods: {
-            closePop(item){
-                this.visible2 = false;
-                console.log(this.visible2)
-                console.log(item);
+            setEditVal(item){
+                this.editVal = item.row.poMoney;
             },
             search() {
 

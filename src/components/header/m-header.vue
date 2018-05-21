@@ -5,7 +5,9 @@
             <div></div>
             <div class="top-nav flex">
                 <div class="top-nav-item shoushi " v-for="item in headerTop">
-                    <div class="hover-color">{{item.name}}</div>
+                    <div class="hover-color">
+                        <router-link :to="item.path">{{item.name}}</router-link>
+                    </div>
                 </div>
             </div>
         </div>

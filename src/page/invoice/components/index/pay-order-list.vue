@@ -11,7 +11,11 @@
                                  width="150"></el-table-column>
                 <el-table-column prop="money" align="right" sortable label="应付日期" width="150"></el-table-column>
                 <el-table-column prop="payDate" align="center" label="金额(¥)" width="150"></el-table-column>
-                <el-table-column prop="payDate" align="center" label="状态" width="150"></el-table-column>
+                <el-table-column align="center" label="状态" width="150">
+                    <template slot-scope="scope">
+                        <span>{{getStatusText(scope)}}</span>
+                    </template>
+                </el-table-column>
                 <el-table-column fixed="right" align="left" label="操作" width="200">
                     <template slot-scope="scope">
                         <el-button  @click="handleClick(scope.row,1)" type="text" size="small"><i class="el-icon-view"></i>查看
@@ -175,15 +179,17 @@
             getStatusText(scope) {
                 switch (scope.row.status) {
                     case 1:
-                        return '未发起对账'
-                    case 2:
-                        return '对账中'
-                    case 3:
-                        return '已对账'
-                    case 4:
-                        return '对账失败'
-                    case 5:
                         return '开票中'
+                    case 2:
+                        return '已开票'
+                    case 3:
+                        return '已确认'
+                    case 4:
+                        return '不通过'
+                    case 5:
+                        return '寄送中'
+                    case 6:
+                        return '其他'
                 }
             },
             reloadTable() {

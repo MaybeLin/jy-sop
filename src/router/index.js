@@ -16,6 +16,11 @@ export default new Router({
             component: login
         },
         {
+            path: '/resetPwd',
+            name: '重置密码',
+            component: () => import('@/page/login/reset-pwd'),
+        },
+        {
             path: '/',
             name: '首页',
             component: index,
@@ -50,6 +55,7 @@ export default new Router({
             name: '消息',
             component: message,
             meta: {id: 2}
-        }
+        },
+        { path: '*', redirect: '/404'}
     ]
 })
