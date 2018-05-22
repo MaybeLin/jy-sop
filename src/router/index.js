@@ -46,6 +46,12 @@ export default new Router({
             meta: {id: 3}
         },
         {
+            path: '/invoice/invoiceDetails',
+            name: '发票管理',
+            component: () => import('@/page/invoice/invoice-details'),
+            meta: {id: 3}
+        },
+        {
             path: '/invoice/createPoSele',
             name: '发票创建',
             component: () => import('@/page/invoice/create-po-sele'),

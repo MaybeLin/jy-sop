@@ -79,8 +79,8 @@
                     poCreateDate: '', //创建日期
                     contrastDate: '', //对账日期
                     contrastStatus: '',//对账状态
-                    openStatus: '',    //开票状态
-                    payStatus: ''       //付款状态
+                    openStatus: '1',    //开票状态
+                    payStatus: '1'       //付款状态
                 },
             }
         },

@@ -1,8 +1,7 @@
 <template>
     <div class="purchase-order page-w block-center block-mg">
         <order-form @search="search" @create-invoice="createInvoice"></order-form>
-        <pay-order-list @tableSet="tableSet" ></pay-order-list>
-        <router-view></router-view>
+        <pay-order-list @show-details="showDetails" ></pay-order-list>
     </div>
 </template>
 
@@ -16,11 +15,13 @@
             search(form) {
 
             },
+            //创建发票
             createInvoice() {
                 this.$router.push({path:'/invoice/createPoSele'});
             },
-            tableSet(opt) {
-
+            //查看详情
+            showDetails(id) {
+                this.$router.push({path:`/invoice/invoiceDetails?invoiceid=${id}`});
             }
         },
         components: {
