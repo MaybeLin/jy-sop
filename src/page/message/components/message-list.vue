@@ -1,15 +1,19 @@
 <template>
     <div class="message-list fr">
-        <page-title bg="#ffffff" color="#222222">订单消息(共{{getLen}}条)</page-title>
+        <page-title bg="#ffffff" color="#222222">{{title}}(共{{getLen}}条)</page-title>
         <div class="message-list-box">
             <el-checkbox :indeterminate="isIndeterminate"
                          v-model="seleAll"
                          @change="handleCheckAllChange"
             >全选
             </el-checkbox>
-            <el-button :disabled="seleDefault.length > 0 ? false : true" @click="getCheck" type="primary" plain size="small">标为已读</el-button>
-            <el-button :disabled="seleDefault.length > 0 ? false : true" @click="getCheck" type="primary" plain size="small">删除消息</el-button>
-            <el-checkbox-group  v-model="seleDefault" @change="handleCheckedCitiesChange">
+            <el-button :disabled="seleDefault.length > 0 ? false : true" @click="getCheck(1)" type="primary" plain
+                       size="small">标为已读
+            </el-button>
+            <el-button :disabled="seleDefault.length > 0 ? false : true" @click="getCheck(2)" type="primary" plain
+                       size="small">删除消息
+            </el-button>
+            <el-checkbox-group v-model="seleDefault" @change="handleCheckedCitiesChange">
                 <el-checkbox class="message-list-item"
                              v-for="item in messageList"
                              :label="item.msg_id"
@@ -25,7 +29,7 @@
             <el-pagination
                     @current-change="handleCurrentChange"
                     :current-page="1"
-                    page-size="10"
+                    :page-size="10"
                     layout="total,prev, pager, next, jumper"
                     :total="messageList.length"
             >
@@ -36,8 +40,15 @@
 
 <script>
     import pageTitle from '@/components/page-title'
+
     export default {
         name: "message-list",
+        props: {
+            title: {
+                type: String,
+                default: ''
+            }
+        },
         data() {
             return {
                 seleAll: false,
@@ -123,8 +134,24 @@
             handleCurrentChange(page) {
                 console.log(page);
             },
-            getCheck(){
-              console.log(this.seleDefault);
+            getCheck(type) {
+                console.log(this.seleDefault);
+                let confirmText = {
+                    title: type == 1 ? '消息标记提示' : '消息删除提示',
+                    text: type == 1 ? '您确定将所选消息标记为已读吗?' : '您确定要删除所选消息吗?'
+                }
+                this.$confirm(confirmText.text, confirmText.title, {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$message({
+                        type: 'success',
+                        message: '删除成功!'
+                    });
+                }).catch(()=>{
+
+                });
             },
             handleCheckAllChange(val) {
                 if (val) {
@@ -164,6 +191,7 @@
                 color #8b8b8b
             .el-checkbox + .el-checkbox
                 margin-left 0
+
     .pagination
         margin-top 30px
 </style>

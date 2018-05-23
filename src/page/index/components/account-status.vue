@@ -12,8 +12,8 @@
                             <router-link class="bold hover-color" to="/message/leaveMessage">立即查看回复</router-link>
                         </div>
                         <div v-if="item.type == 6">
-                            <router-link class="bold hover-color" to="/message/announcement">公告{{item.announcementNum}}</router-link>
-                            <router-link class="bold hover-color" to="/message/msg">消息{{item.msgNum}}</router-link>
+                            <router-link class="bold hover-color" to="/message?type=1">公告{{item.announcementNum}}</router-link>
+                            <router-link class="bold hover-color" to="/message?type=2">消息{{item.msgNum}}</router-link>
                         </div>
                     </div>
                 </div>

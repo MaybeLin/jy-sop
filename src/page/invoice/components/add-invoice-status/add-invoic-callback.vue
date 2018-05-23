@@ -31,7 +31,7 @@
         },
         data() {
             return {
-                visible: this.invoicShow,
+                visible: this.show,
                 invoice: {
                     form: {
                         id: '',
@@ -42,8 +42,8 @@
             }
         },
         watch: {
-            invoicShow () {
-                this.visible = this.invoicShow;
+            show () {
+                this.visible = this.show;
             }
         },
         methods:{

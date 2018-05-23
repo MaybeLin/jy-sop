@@ -39,7 +39,7 @@ export const nav = [
     },
     {
         name: '资金计划',
-        path: '/',
+        path: '/plan',
         id: 5
     },
     {

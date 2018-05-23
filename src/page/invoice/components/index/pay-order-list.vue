@@ -64,8 +64,8 @@
                     {text: '寄送中', value: 5},
                 ],
                 addInvoicStatus: {
-                    invoic: false, //发票信息
-                    logistics: false //物流信息
+                    invoic: false, //发票信息弹框
+                    logistics: false //物流信息弹框
                 },
                 tableConfig: TABLE,
                 //status 1 开票中 2 已开票 3 已确认 4不通过 5寄送中 6 其他

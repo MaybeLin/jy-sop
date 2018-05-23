@@ -1,5 +1,5 @@
 <template>
-    <el-dialog @close="$emit('update:logisticsShow', false)" width="30%" title="纸质发票寄送信息" :visible.sync="visible" >
+    <el-dialog @close="$emit('update:logisticsShow', false)" width="30%" title="纸质发票寄送信息" :visible.sync="visible" :show="logisticsShow">
         <el-form :model="invoice.form" label-width="80px">
             <el-form-item label="寄送方式">
                 <el-select v-model="invoice.form.value"  placeholder="请选择寄送方式">
@@ -42,9 +42,8 @@
             }
         },
         watch: {
-            logisticsShow () {
-                console.log(1)
-                this.visible = this.logisticsShow;
+            show () {
+                this.visible = this.show;
             }
         },
         methods:{

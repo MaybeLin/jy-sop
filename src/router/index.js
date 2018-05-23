@@ -47,7 +47,7 @@ export default new Router({
         },
         {
             path: '/invoice/invoiceDetails',
-            name: '发票管理',
+            name: '发票详情',
             component: () => import('@/page/invoice/invoice-details'),
             meta: {id: 3}
         },
@@ -62,6 +62,12 @@ export default new Router({
             name: '发票创建详情',
             component: () => import('@/page/invoice/create-details'),
             meta: {id: 3}
+        },
+        {
+            path: '/plan',
+            name: '资金计划',
+            component: () => import('@/page/money-plan'),
+            meta: {id: 5}
         },
         {
             path: '/message',
