@@ -66,8 +66,7 @@ export default new Router({
         {
             path: '/message',
             name: '消息',
-            component: message,
-            meta: {id: 2}
+            component: message
         },
         { path: '*', redirect: '/404'}
     ]

@@ -6,7 +6,7 @@ body, html
 
 body
   background $color-background
-
+  min-width $page-width
 a
   color inherit
 
@@ -78,7 +78,10 @@ a
 
 .bold
   font-weight bold
-
+.text-over
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 //每个块 间距 margit
 .block-mg
   margin-top 30px

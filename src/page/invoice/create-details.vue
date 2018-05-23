@@ -61,7 +61,7 @@
                     <el-table-column header-cell-class-name="aaaa" align="center" prop="price" label="单价"></el-table-column>
                     <el-table-column class-name="table-tr" align="center" prop="money" label="金额" >
                         <template slot-scope="scope">
-                            <div>{{(scope.row.number * scope.row.price).toLocaleString()}}</div>
+                            <div v-text="scope.row.number ? (scope.row.number * scope.row.price).toLocaleString() : (scope.row.money).toLocaleString()"></div>
                         </template>
                     </el-table-column>
                     <el-table-column align="center" prop="raio" label="税率(%)"></el-table-column>
@@ -122,6 +122,11 @@
                         raio: 16,
                         price: 3,
                         money: 3000,
+                        raioMoney: '1,600'
+                    }, {
+                        id:3,
+                        raio: 16,
+                        money: -1000,
                         raioMoney: '1,600'
                     }],
             }
