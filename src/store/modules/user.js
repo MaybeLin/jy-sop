@@ -12,7 +12,7 @@ const user = {
                    resolve();
                })
            }).catch(error=>{
-               reject(error)
+               reject(error);
            })
         }
     }

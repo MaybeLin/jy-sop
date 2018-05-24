@@ -1,7 +1,7 @@
 <template>
     <div class="page-w block-center block-mg create-invoice">
         <page-title>PO选择</page-title>
-        <div class="table-bg table-pd">
+        <div class="table-bg table-pd index-table">
             <div class="form-group flex flex-y-center block-child-mg">
                 <span class="form-name">PO单号</span>
                 <el-input class="form-group-input" placeholder="请输入PO单"></el-input>

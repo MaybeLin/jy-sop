@@ -34,7 +34,7 @@ export const nav = [
     },
     {
         name: '贴现申请',
-        path: '/',
+        path: '/beforemoney',
         id: 4
     },
     {
@@ -44,7 +44,7 @@ export const nav = [
     },
     {
         name: '应收帐款',
-        path: '/',
+        path: '/due',
         id: 6
     }
 ]

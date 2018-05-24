@@ -64,10 +64,22 @@ export default new Router({
             meta: {id: 3}
         },
         {
+            path: '/beforemoney',
+            name: '贴现申请',
+            component: () => import('@/page/before-money'),
+            meta: {id:4}
+        },
+        {
             path: '/plan',
             name: '资金计划',
             component: () => import('@/page/money-plan'),
             meta: {id: 5}
+        },
+        {
+            path: '/due',
+            name: '应收账款',
+            component: () => import('@/page/due-money'),
+            meta: {id: 6}
         },
         {
             path: '/message',

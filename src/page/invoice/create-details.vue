@@ -1,7 +1,7 @@
 <template>
     <div class="create-details page-w block-center block-mg">
         <page-title>发票新增</page-title>
-        <div class="table-bg table-pd clearfix">
+        <div class="table-bg table-pd clearfix index-table">
             <div class="details-text">
                 <div class="flex">
                     <div class="form-group flex flex-y-center block-child-mg">
