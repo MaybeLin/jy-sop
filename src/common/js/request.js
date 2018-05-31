@@ -1,14 +1,22 @@
 import axios from 'axios';
 import { Message, MessageBox } from 'element-ui';
-import {RES_CODE} from "@/api/config";
+import { startLoading, endLoading } from './loding';
+import {RES_CODE,ERR_CODE} from "@/api/config";
+import store from '@/store'
+import Qs from 'qs'
 // 创建axios实例
+console.log(process.env)
 const service = axios.create({
     baseURL: process.env.API_ROOT, // api的base_url
-    timeout: 15000 // 请求超时时间
+    timeout: 15000, // 请求超时时间
+    // withCredentials: true           // 请求带上cookie
 })
-console.log(process.env);
+
 // request拦截器
 service.interceptors.request.use(config => {
+    config.data = Qs.stringify(config.data);
+    config.headers['Content-type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+    startLoading();
     return config;
 }, error => {
     // Do something with request error
@@ -19,6 +27,7 @@ service.interceptors.request.use(config => {
 // respone拦截器
 service.interceptors.response.use(
     response => {
+        endLoading();
         const res = response.data
         if (res.code !== RES_CODE) {
             Message({
@@ -27,15 +36,17 @@ service.interceptors.response.use(
                 duration: 5 * 1000
             })
 
-            // 50008:非法的token; 50012:其他客户端登录了;  50014:Token 过期了;
-            if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
-                MessageBox.confirm('你已被登出，可以取消继续留在该页面，或者重新登录', '确定登出', {
-                    confirmButtonText: '重新登录',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-
+            if (res.code === ERR_CODE.LOGIN_CODE || res.code === 50012 || res.code === 50014) {
+                store.dispatch('FedLogOut').then(() => {
+                    location.reload();// 为了重新实例化vue-router对象 避免bug
                 })
+                // MessageBox.confirm('你已被登出，可以取消继续留在该页面，或者重新登录', '确定登出', {
+                //     confirmButtonText: '重新登录',
+                //     cancelButtonText: '取消',
+                //     type: 'warning'
+                // }).then(() => {
+                //
+                // })
             }
             return Promise.reject('error');
         } else {
@@ -43,6 +54,7 @@ service.interceptors.response.use(
         }
     },
     error => {
+        endLoading();
         console.log('err' + error)// for debug
         Message({
             message: error.message,

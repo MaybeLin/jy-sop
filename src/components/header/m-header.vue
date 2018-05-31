@@ -4,8 +4,13 @@
         <div class="header-top page-w block-center flex just-center">
             <div></div>
             <div class="top-nav flex">
-                <div class="top-nav-item shoushi " v-for="item in headerTop">
-                    <div class="hover-color">
+                <div v-if="userName != ''" class="flex">
+                    <div>您好,{{userName}}</div>
+                    <div @click="loginOut" class="hover-color shoushi" style="margin:0 10px">退出</div>
+                </div>
+                <div class="top-nav-item shoushi " v-for="item in headerTop" v-if="item.id == 1 ? userName != '' ? false : true : true">
+                    <div class="hover-color"
+                         :class="navActive == item.id ? 'active ' : ''">
                         <router-link :to="item.path">{{item.name}}</router-link>
                     </div>
                 </div>
@@ -31,16 +36,22 @@
 </template>
 
 <script>
-    import {headerTop, nav} from './config';
+    import {headerTop} from './config';
+    import {mapActions, mapState, mapMutations, mapGetters} from 'vuex'
 
     export default {
         name: "Mheader",
         data() {
             return {
                 headerTop: headerTop,
-                nav: nav,
                 navActive: 1
             }
+        },
+        computed: {
+            ...mapState({
+                nav: state => state.nav.navAll,
+                userName: state => state.user.name
+            }),
         },
         watch: {      //监听路由变化
             $route(to) {
@@ -53,8 +64,13 @@
         methods: {
             getRouterActive(to) {
                 var indexRouter = to || this.$route;
-                this.navActive = indexRouter.meta.id;
-            }
+                this.navActive = indexRouter.meta.id || 0;
+            },
+            loginOut() {
+                this.$store.dispatch('FedLogOut').then(() => {
+                    location.reload();
+                })
+            },
         }
     }
 </script>
@@ -76,6 +92,9 @@
             padding: 0 8px
             border-left: 1px solid $color-main
 
+    .active
+        color $color-main
+
     .header-nav
         margin-top: 20px
         .logo
@@ -84,15 +103,13 @@
             font-weight bold
         .nav
             color #222222
-            .active
-                color $color-main
             .nav-text
                 margin: 0 20px
                 font-size: $font-size-medium-x
                 .active-bor
                     width 20px
                     height 4px
-                    border-radius  4px
+                    border-radius 4px
                     background $color-main
                     margin-top 4px
 </style>

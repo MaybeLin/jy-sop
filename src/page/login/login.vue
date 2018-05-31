@@ -10,13 +10,14 @@
                     <div class="group block-center">
                         <el-input placeholder="请输入用户账号"
                                   prefix-icon="el-icon-search"
-                                  v-model="user"></el-input>
+                                  v-model="loginForm.user"></el-input>
                     </div>
                     <div class="group block-center">
                         <el-input
+                                type="password"
                                 placeholder="请输入用户密码"
                                 prefix-icon="el-icon-search"
-                                v-model="pwd">
+                                v-model="loginForm.pwd">
                         </el-input>
                     </div>
                     <div class="group block-center flex just-center">
@@ -30,9 +31,9 @@
                                    :loading="loding.show">{{loding.text}}
                         </el-button>
                     </div>
-                    <div class="group tc block-center">
-                        <router-link to="/foo" class="get-pwd"><u>没有账号?立即注册</u></router-link>
-                    </div>
+                    <!--<div class="group tc block-center">-->
+                        <!--<router-link to="/foo" class="get-pwd"><u>没有账号?立即注册</u></router-link>-->
+                    <!--</div>-->
                 </div>
             </div>
         </div>
@@ -50,17 +51,26 @@
                 },
                 isLoding: null,
                 isAutoLogin: false,
-                user: 'admin',
-                pwd: 'admin'
+                loginForm:{
+                    user: '',
+                    pwd: ''
+                },
             }
         },
         methods: {
             login() {
-                this.loding.show = true;
-                this.loding.text = '正在登录中...';
-                setTimeout(() => {
-                    this.$router.push('/');
-                },2000)
+                this.$store.dispatch('Login', this.loginForm).then((res) => {
+                    if(res.data == '1') { //首次登录
+                        this.$router.push({ path: '/resetPwd' })
+                    } else {
+                        this.$router.push({ path: '/' })
+                    }
+                })
+                // this.loding.show = true;
+                // this.loding.text = '正在登录中...';
+                // setTimeout(() => {
+                //     this.$router.push('/');
+                // },2000)
             }
         }
     }

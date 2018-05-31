@@ -1,9 +1,10 @@
 import Vue from 'vue';
 import App from './App'; //首页模版
 import router from './router'; //路由
-
+import store from './store'
 import ElementUI from 'element-ui'; //ui组件
 import 'element-ui/lib/theme-chalk/index.css';//ui-css
+import '@/router-intercept'
 import './common/stylus/index.styl'
 import VueLazy from 'vue-lazyload'; //懒加载图片
 Vue.config.productionTip = false;
@@ -16,6 +17,7 @@ Vue.use(VueLazy, {
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })
