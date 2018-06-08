@@ -1,5 +1,5 @@
 import request from '@/common/js/request'
-
+//登录
 export function login(username, password) {
     return request({
         url: '/user/login',
@@ -10,7 +10,7 @@ export function login(username, password) {
         }
     })
 }
-
+//退出登录
 export function loginout() {
     return request({
         url: '/user/loginout',
@@ -24,7 +24,7 @@ export function checklogin() {
         method: 'POST'
     })
 }
-
+//获取用户信息
 export function getInfo() {
     return request({
         url: '/user/getuserinfo',

@@ -26,6 +26,7 @@
                     </div>
                     <div class="group block-center tc">
                         <el-button @click="login"
+                                   @keyup.enter="login"
                                    class="w-100 login-btn"
                                    type="primary"
                                    :loading="loding.show">{{loding.text}}

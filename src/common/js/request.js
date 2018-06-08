@@ -14,8 +14,10 @@ const service = axios.create({
 
 // request拦截器
 service.interceptors.request.use(config => {
-    config.data = Qs.stringify(config.data);
-    config.headers['Content-type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+    if (config.isQs != 999) {
+        config.data = Qs.stringify(config.data);
+        config.headers['Content-type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+    }
     startLoading();
     return config;
 }, error => {
@@ -35,18 +37,10 @@ service.interceptors.response.use(
                 type: 'error',
                 duration: 5 * 1000
             })
-
-            if (res.code === ERR_CODE.LOGIN_CODE || res.code === 50012 || res.code === 50014) {
+            if (res.code === ERR_CODE.LOGIN_CODE) {
                 store.dispatch('FedLogOut').then(() => {
                     location.reload();// 为了重新实例化vue-router对象 避免bug
                 })
-                // MessageBox.confirm('你已被登出，可以取消继续留在该页面，或者重新登录', '确定登出', {
-                //     confirmButtonText: '重新登录',
-                //     cancelButtonText: '取消',
-                //     type: 'warning'
-                // }).then(() => {
-                //
-                // })
             }
             return Promise.reject('error');
         } else {

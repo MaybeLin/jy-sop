@@ -6,64 +6,73 @@
                 <div class="flex">
                     <div class="form-group flex flex-y-center block-child-mg">
                         <span class="form-name ">开票日期：</span>
-                        <span class="form-text">2018-04-15</span>
+                        <span class="form-text">{{coreInfo.invoice_time}}</span>
                     </div>
                     <div class="form-group flex flex-y-center block-child-mg">
                         <span class="form-name ">购货单位：</span>
-                        <span class="form-text">洁丽雅毛巾有限公司</span>
+                        <span class="form-text">{{coreInfo.enterprise_name}}</span>
                     </div>
                 </div>
                 <div class="flex">
                     <div class="form-group flex flex-y-center block-child-mg">
                         <span class="form-name ">纳税人识别号：</span>
-                        <span class="form-text">1234567880865</span>
+                        <span class="form-text">{{coreInfo.invoice_number}}</span>
                     </div>
                     <div class="form-group flex flex-y-center block-child-mg">
                         <span class="form-name ">开户行、开户银行：</span>
-                        <span class="form-text">【招商】622717271829</span>
+                        <span class="form-text">【{{coreInfo.bank_name}}】{{coreInfo.bank_code}}</span>
                     </div>
                 </div>
                 <div class="flex">
                     <div class="form-group flex flex-y-center block-child-mg">
                         <span class="form-name ">地址：</span>
-                        <span class="form-text">陕西省临汾是ok县31-2-103</span>
+                        <span class="form-text">{{coreInfo.contacts_addr}}</span>
                     </div>
                     <div class="form-group flex flex-y-center block-child-mg">
                         <span class="form-name ">电话：</span>
-                        <span class="form-text">0045-18291002</span>
+                        <span class="form-text">{{coreInfo.invoice_mobile}}</span>
                     </div>
                 </div>
             </div>
             <div class="details-table">
-                <el-table show-summary :summary-method="getSummaries" class="block-child-mg" ref="multipleTable" :data="tableData3" style="width: 100%">
+                <el-table class="block-child-mg" ref="multipleTable" :data="shopList" style="width: 100%">
                     <el-table-column align="center" label="序号" type="index" width="50"></el-table-column>
-                    <el-table-column align="center" prop="name" label="货物或应税劳务名称" ></el-table-column>
-                    <el-table-column align="center" prop="type" label="规格型号"></el-table-column>
-                    <el-table-column align="center" prop="unit" label="计量单位"></el-table-column>
-                    <el-table-column align="center" label="数量">
+                    <el-table-column align="center" prop="product_name" label="货物或应税劳务名称"></el-table-column>
+                    <el-table-column align="center" prop="product_spec" label="规格型号"></el-table-column>
+                    <el-table-column align="center" prop="measurement_unit" label="计量单位"></el-table-column>
+                    <el-table-column align="center" prop="num" label="数量"></el-table-column>
+                    <el-table-column align="center"  label="单价">
                         <template slot-scope="scope">
-                            <el-popover @show="setEditVal(scope)" placement="top" class="shoushi"
-                                        v-model="scope.row.popover">
-                                <el-input autofocus="true" v-model="editVal"></el-input>
-                                <div class="tr  block-child-mg">
-                                    <el-button size="small" @click="scope.row.popover = false">取消</el-button>
-                                    <el-button type="primary" @click="editNumber(scope)" size="small">确认</el-button>
-                                </div>
-                                <div slot="reference" class="name-wrapper">
-                                    {{ scope.row.number }}
-                                </div>
-                            </el-popover>
+                            {{scope.row.price | moneyFormat}}
                         </template>
                     </el-table-column>
-                    <el-table-column header-cell-class-name="aaaa" align="center" prop="price" label="单价"></el-table-column>
-                    <el-table-column class-name="table-tr" align="center" prop="money" label="金额" >
+                    <el-table-column class-name="table-tr" align="right" label="金额" width="120">
                         <template slot-scope="scope">
-                            <div v-text="scope.row.number ? (scope.row.number * scope.row.price).toLocaleString() : (scope.row.money).toLocaleString()"></div>
+                            {{scope.row.totalmoney | moneyFormat}}
                         </template>
                     </el-table-column>
-                    <el-table-column align="center" prop="raio" label="税率(%)"></el-table-column>
-                    <el-table-column align="center" prop="raioMoney" label="税额"></el-table-column>
+                    <el-table-column align="center" prop="tax_rate" label="税率(%)" width="120">
+                        <template slot-scope="scope">
+                            {{parseFloat(scope.row.tax_rate) * 100}}
+                        </template>
+                    </el-table-column>
+                    <el-table-column align="right"  label="税额" width="120">
+                        <template slot-scope="scope">
+                            {{scope.row.tax_money | moneyFormat}}
+                        </template>
+                    </el-table-column>
                 </el-table>
+                <div class="zongji flex">
+                    <div class="flex-1">合计</div>
+                    <div style="width: 120px" class="tr">{{total.total_money | moneyFormat}}</div>
+                    <div style="width: 120px"></div>
+                    <div style="width: 120px" class="tr">{{total.total_txtmoney | moneyFormat}}</div>
+                </div>
+                <div class="zongji flex">
+                    <div class="flex-1">价税合计</div>
+                    <div style="width: 800px" class="tc">{{allMoneyDaXie}}</div>
+                    <div style="width: 120px" class="tr">{{total.total_money + total.total_txtmoney | moneyFormat}}</div>
+                </div>
             </div>
             <div class="make flex flex-y-center block-mg">
                 <div>备注</div>
@@ -74,18 +83,12 @@
             <div class="create-up flex flex-y-center block-mg ">
                 <div>附件</div>
                 <div class="block-child-mg-left">
-                    <el-upload
-                            class="upload"
-                            drag
-                            :action="api"
-                            multiple>
-                        <div class="el-upload__text">点击上传(附件不超过20m)</div>
-                    </el-upload>
+                    <a :href="'http://' + coreInfo.attachment">{{coreInfo.attachment}}</a>
                 </div>
             </div>
             <div class="make flex flex-y-center block-mg">
                 <div>发票状态</div>
-                <div class="block-child-mg-left" style="width: 300px">已开票</div>
+                <div class="block-child-mg-left" style="width: 300px">{{coreInfo.invoice_status}}</div>
             </div>
             <div class="make flex flex-y-center block-mg">
                 <div>付款日期</div>
@@ -103,85 +106,58 @@
 </template>
 
 <script>
-    import pageTitle from '@/components/page-title'
-    import { convertCurrency } from '@/common/js/number'
+    import pageTitle from '@/components/page-title';
+    import {convertCurrency} from '@/common/js/number';
+    import {getInvoiceDetail} from 'api/invoice';
+
     const API = process.env.API_ROOT + '/up';
     export default {
         name: "create-details",
         data() {
             return {
+                invoiceId: null,
                 api: API,
-                editVal: '',
-                tableData3: [
-                    {
-                        id:1,
-                        type: '#34',
-                        unit: '个',
-                        number: 1000,
-                        raio: 16,
-                        price: 1000,
-                        money: 1000000,
-                        raioMoney: '1,600'
-                    }, {
-                        id:2,
-                        type: '#36',
-                        unit: '条',
-                        number: 1000,
-                        raio: 16,
-                        price: 3,
-                        money: 3000,
-                        raioMoney: '1,600'
-                    }, {
-                        id:3,
-                        raio: 16,
-                        money: -1000,
-                        raioMoney: '1,600'
-                    }],
+                coreInfo: {}, //开票信息
+                shopList: [], //物料信息
+                total: {
+                    total_money: '--',
+                    total_txtmoney: '--'
+                }
+            };
+        },
+        computed:{
+            allMoneyDaXie(){
+                return convertCurrency(this.total.total_money + this.total.total_txtmoney);
             }
         },
-        mounted(){
-            this.pushTable();
+        created() {
+            this.getInvoiceId();
+        },
+        mounted() {
+            this.getInvoiceDetail();
         },
         methods: {
-            pushTable(){
-                // console.log(this.$refs.multipleTable)
-            },
-            //合计 计算金额的和
-            getSummaries(param) {
-                const { columns, data } = param;
-                const sums = [];
-                columns.forEach((column, index) => {
-                    if (index === 0) {
-                        sums[index] = '合计';
-                        return;
-                    }
-                    if (column.property == 'money' || column.property == 'raioMoney') {
-                        const values = data.map(item => {
-                            return item[column.property];
-                        });
-                        sums[index] = values.reduce((prev,curr) => {
-                            const value = Number(curr);
-                            if (!isNaN(value)) {
-                                return prev + curr;
-                            } else {
-                                return prev;
-                            }
-                        },0).toLocaleString()
-                    }
+            getInvoiceDetail() {
+                getInvoiceDetail(this.invoiceId).then(res => {
+                    this.shopList = res.data.list;
+                    this.coreInfo = res.data.core_info;
+                    this.total.total_money = parseFloat(res.data.total_money);
+                    this.total.total_txtmoney = parseFloat(res.data.total_txtmoney);
                 })
-                return sums;
             },
-            setEditVal(item) {
-                this.editVal = item.row.number;
-            },
-            editNumber(item) {
-                item.row.number = this.editVal;
+            getInvoiceId() {
+                this.invoiceId = this.$route.query.invoiceid;
+                if (this.invoiceId === undefined) {
+                    this.$router.push({
+                        path: '/invoice'
+                    });
+                }
             }
         },
         components: {
             pageTitle
         }
-    }
+    };
 </script>
 
 <style scoped lang="stylus">
@@ -190,4 +166,7 @@
             width 140px
         .form-text
             width 220px
+    .zongji > div
+        padding 0 10px
+        line-height 35px
 </style>

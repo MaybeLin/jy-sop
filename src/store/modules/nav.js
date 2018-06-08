@@ -1,30 +1,40 @@
 import {setToken} from '@/common/js/auth';
-import {nav, rolesNav} from "@/components/header/config";
+import {baseRouter, asyncRouterMap, pageError} from "@/router";
 
 const navs = {
     state: {
-        navAll: nav
+        nav: baseRouter,
+        addRouter: [] //路由根据这个整合
     },
     mutations: {
-        SET_NAV: (state, addNav) => {
-            state.navAll = addNav;
-        },
-        SETNAV_STATUS: (state, status) => {
-            state.isSetNav = status;
+        SET_NAV: (state, {nav,roles}) => {
+            //可以贴现 把权限路由和404 concat 在concat到基础路由
+            if (roles == 1) {
+                state.addRouter = nav.concat(pageError);
+                state.nav = baseRouter.concat(state.addRouter);
+            } else {
+                //不可以贴现 只concat 404路由
+                state.addRouter = pageError;
+                state.nav = baseRouter.concat(state.addRouter);
+            }
         }
     },
     actions: {
         pushNav({commit}, roles) {
-            return new Promise((resolve, reject) => {
+            return new Promise((resolve) => {
                 if (roles == '1') {
-                    let newNav = nav.concat(rolesNav);
-                    commit('SET_NAV', newNav);
+                    commit('SET_NAV', {
+                        'nav': asyncRouterMap,
+                        roles: 1
+                    });
                 } else {
-                    commit('SET_NAV', nav);
+                    commit('SET_NAV', {
+                        roles: 0
+                    });
                 }
                 resolve();
-            })
+            });
         }
     }
-}
+};
 export default navs;

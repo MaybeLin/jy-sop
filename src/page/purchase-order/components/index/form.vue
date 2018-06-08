@@ -64,7 +64,6 @@
                 </div>
             </div>
             <div class="form-btn fr">
-                <el-button size="small" type="danger" icon="el-icon-plus">新增</el-button>
                 <el-button @click="search" size="small" type="primary" icon="el-icon-search">查询</el-button>
             </div>
         </div>

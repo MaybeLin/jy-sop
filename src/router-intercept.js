@@ -1,8 +1,6 @@
 import router from './router'
 import store from './store'
-import {Message} from 'element-ui'
 import {getToken} from '@/common/js/auth' // getToken from cookie
-import {nav, rolesNav} from "@/components/header/config";
 
 router.beforeEach((to, from, next) => {
     if (getToken()) {
@@ -10,11 +8,10 @@ router.beforeEach((to, from, next) => {
             next({path: '/'});
         } else {
             if (store.getters.roles == '') {
-                store.dispatch('userInfo').then( res => {
-                    console.log(res);
-                    const role_id = res.data.role_id;
-                    store.dispatch('pushNav', role_id).then(() => {
-                        next();
+                store.dispatch('userInfo').then( discount => {
+                    store.dispatch('pushNav', discount).then(() => {
+                        router.addRoutes(store.getters.addRouter) // 动态添加可访问路由表
+                        next({ ...to, replace: true });
                     });
                 })
             } else {

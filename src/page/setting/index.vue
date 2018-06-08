@@ -19,14 +19,16 @@
                 </div>
             </div>
             <div class="form-btn fr">
-                <el-button size="small" type="danger" icon="el-icon-plus">保存</el-button>
+                <el-button @click="update" size="small" type="danger" icon="el-icon-plus">保存</el-button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import pageTitle from '@/components/page-title'
+    import pageTitle from '@/components/page-title';
+    import {updateSupplier, supplierManagerInfo} from '@/api/setting';
+
     export default {
         name: "setting",
         data() {
@@ -36,12 +38,27 @@
                     email: '',
                     person: ''
                 }
+            };
+        },
+        created() {
+            this.suppInfo();
+        },
+        methods: {
+            suppInfo() {
+                supplierManagerInfo().then(res => {
+                    console.log(res);
+                });
+            },
+            update() {
+                updateSupplier(this.settingForm).then(res => {
+                    console.log(res);
+                });
             }
         },
         components: {
             pageTitle
         }
-    }
+    };
 </script>
 
 <style scoped lang="stylus">

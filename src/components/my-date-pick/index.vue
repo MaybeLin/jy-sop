@@ -57,6 +57,11 @@
                 }
             }
         },
+        watch:{
+            moneyDate(date){
+                this.getIndexMonth();
+            }
+        },
         mounted() {
             this.getIndexMonth();
         },
@@ -67,6 +72,7 @@
                     this.activeKi.k = k;
                     this.activeKi.i = i;
                     day.active = 1;
+                    this.$emit('seleDay',day);
                 }
             },
             getClass(day) {
@@ -160,7 +166,9 @@
                 indexArr.forEach((dateGroup) => {
                     this.moneyDate.forEach((item) => {
                         if (dateGroup.date == item.date) {
-                            dateGroup['money'] = item.money;
+                            for(let i in item) {
+                                dateGroup[i] = item[i];
+                            }
                         }
                     })
                 })
@@ -181,7 +189,7 @@
 
 <style scoped lang="stylus">
     .my-date-pick
-        width 320px;
+        width 620px;
         overflow hidden;
         color #606266;
         border 1px solid #e4e7ed;
@@ -208,7 +216,7 @@
             tr
                 td
                     width 32px;
-                    height 30px;
+                    height 60px;
                     padding 4px 0;
                     position relative
                     .money

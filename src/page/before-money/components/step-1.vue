@@ -5,21 +5,21 @@
             <div class="step-group flex">
                 <div class="block-child-mg">
                     <span class="step-group-name">发票号码：</span>
-                    <span class="step-group-text">VT123456789</span>
+                    <span class="step-group-text">{{applyData.invoice_num}}</span>
                 </div>
                 <div class="block-child-mg">
                     <span class="step-group-name" style="width: 90px">发票账期：</span>
-                    <span class="step-group-text">收票后90天</span>
+                    <span class="step-group-text">{{applyData.zhangqi}}</span>
                 </div>
             </div>
             <div class="step-group flex">
                 <div class="block-child-mg">
                     <span class="step-group-name">发票金额：</span>
-                    <span class="step-group-text">¥8,900</span>
+                    <span class="step-group-text">¥{{applyData.invoice_money | moneyFormat}}</span>
                 </div>
                 <div class="block-child-mg">
                     <span class="step-group-name" style="width: 90px">发票应付日期：</span>
-                    <span class="step-group-text">2018.06.25</span>
+                    <span class="step-group-text">{{applyData.pay_time}}</span>
                 </div>
             </div>
         </div>
@@ -27,9 +27,16 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex';
+
     export default {
-        name: "step-1"
-    }
+        name: "step-1",
+        computed: {
+            ...mapGetters({
+                applyData: 'applyData'
+            })
+        }
+    };
 </script>
 
 <style scoped lang="stylus">

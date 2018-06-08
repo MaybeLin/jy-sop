@@ -4,28 +4,38 @@
         <div class="step-computed">
             <div class="step-two-group block-child-mg">
                 <span class="step-group-name">提前付款日期：</span>
-                <span class="step-group-text">2018.06.05</span>
+                <span class="step-group-text">{{applyData.date || '--'}}</span>
             </div>
             <div class="step-two-group block-child-mg">
                 <span class="step-group-name">折扣前金额：</span>
-                <span class="step-group-text">¥8,900</span>
+                <span class="step-group-text" v-if="applyData.money">¥{{applyData.invoice_money | moneyFormat}}</span>
+                <span class="step-group-text" v-else>--</span>
             </div>
             <div class="step-two-group block-child-mg">
                 <span class="step-group-name">折扣金额：</span>
-                <span class="step-group-text">-¥100</span>
+                <span class="step-group-text" v-if="applyData.money">-¥{{(applyData.invoice_money - applyData.money).toFixed(2) | moneyFormat}}</span>
+                <span class="step-group-text" v-else>--</span>
             </div>
             <div class="step-two-group block-child-mg">
                 <span class="step-group-name">折扣后应付款：</span>
-                <span class="step-group-text">¥8,800</span>
+                <span class="step-group-text" v-if="applyData.money">¥{{applyData.money | moneyFormat}}</span>
+                <span class="step-group-text" v-else>--</span>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import {mapState} from 'vuex';
+
     export default {
-        name: "step-3"
-    }
+        name: "step-3",
+        computed: {
+            ...mapState({
+                applyData: state => state.apply.applyData
+            })
+        }
+    };
 </script>
 
 <style scoped lang="stylus">

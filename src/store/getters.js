@@ -5,5 +5,8 @@ const getters = {
     roles: state => state.user.roles,
     isSetNav: state => state.nav.isSetNav,
     nav: state => state.nav.navAll,
-}
-export default getters
+    addRouter: state => state.nav.addRouter,
+    applyData: state => state.apply.applyData,
+    applyMoney: state => state.apply.money
+};
+export default getters;

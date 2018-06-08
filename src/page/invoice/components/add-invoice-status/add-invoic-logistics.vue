@@ -42,8 +42,8 @@
             }
         },
         watch: {
-            show () {
-                this.visible = this.show;
+            logisticsShow () {
+                this.visible = this.logisticsShow;
             }
         },
         methods:{

@@ -1,6 +1,6 @@
 import {login, getInfo,loginout} from '@/api/login';
 import {setToken,removeToken} from '@/common/js/auth';
-
+const env = process.env;
 const user = {
     state: {
         token: '',
@@ -22,8 +22,10 @@ const user = {
         Login({commit}, userInfo) {
             return new Promise((resolve) => {
                 login(userInfo.user, userInfo.pwd).then(res => {
+                    if (env.NODE_ENV == 'development') {
+                        setToken(res.data.suppliersess_id);
+                    }
                     commit('SET_TOKEN', res.data.suppliersess_id);
-                    setToken(res.data.suppliersess_id);
                     resolve(res);
                 }).catch(error => {
                     console.log(error)
@@ -33,12 +35,19 @@ const user = {
         userInfo({commit}) {
             return new Promise((resolve) => {
                 getInfo().then(res => {
-                    commit('SET_ROLES', res.data.role_id);
+                    commit('SET_ROLES', res.data.supplierdatalist.ext.on_discount);
                     commit('SET_NAME', res.data.user_name);
-                    resolve(res);
+                    resolve(res.data.supplierdatalist.ext.on_discount);
                 }).catch(error => {
                     console.log(error);
                 })
+            })
+        },
+        autoOut({ commit }){
+            return new Promise(resolve => {
+                commit('SET_TOKEN', '');
+                removeToken();
+                resolve()
             })
         },
         // 前端 登出

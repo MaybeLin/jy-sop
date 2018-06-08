@@ -29,9 +29,10 @@
                 default: false
             }
         },
+
         data() {
             return {
-                visible: this.show,
+                visible: this.invoicShow,
                 invoice: {
                     form: {
                         id: '',
@@ -42,8 +43,8 @@
             }
         },
         watch: {
-            show () {
-                this.visible = this.show;
+            invoicShow () {
+                this.visible = this.invoicShow;
             }
         },
         methods:{

@@ -8,7 +8,9 @@
                     <div>您好,{{userName}}</div>
                     <div @click="loginOut" class="hover-color shoushi" style="margin:0 10px">退出</div>
                 </div>
-                <div class="top-nav-item shoushi " v-for="item in headerTop" v-if="item.id == 1 ? userName != '' ? false : true : true">
+                <div class="top-nav-item shoushi "
+                     v-for="item in nav"
+                     v-if="getNavTopStatus(item)">
                     <div class="hover-color"
                          :class="navActive == item.id ? 'active ' : ''">
                         <router-link :to="item.path">{{item.name}}</router-link>
@@ -24,6 +26,7 @@
                 <div class="nav-text shoushi hover-color"
                      v-for="item in nav"
                      :class="navActive == item.id ? 'active ' : ''"
+                     v-if="item.type && item.type == '2'"
                 >
                     <router-link :to="item.path" class="hover-color">
                         {{item.name}}
@@ -36,20 +39,18 @@
 </template>
 
 <script>
-    import {headerTop} from './config';
-    import {mapActions, mapState, mapMutations, mapGetters} from 'vuex'
+    import { mapState } from 'vuex'
 
     export default {
         name: "Mheader",
         data() {
             return {
-                headerTop: headerTop,
                 navActive: 1
             }
         },
         computed: {
             ...mapState({
-                nav: state => state.nav.navAll,
+                nav: state => state.nav.nav,
                 userName: state => state.user.name
             }),
         },
@@ -62,6 +63,13 @@
             this.getRouterActive();
         },
         methods: {
+            getNavTopStatus(item){
+                if (item.type && item.type == '1') {
+                    if(item.id == 1 && this.userName != '') return false;
+                    return true;
+                }
+                return false;
+            },
             getRouterActive(to) {
                 var indexRouter = to || this.$route;
                 this.navActive = indexRouter.meta.id || 0;
